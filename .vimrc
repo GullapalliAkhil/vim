@@ -1,6 +1,6 @@
 " Some links-
 " https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
-" 
+" http://www.farseer.cn/config/2013/08/02/replace-deprecated-vim-plugins-with-modern-alternatives/ 
 
 set nocompatible
 
@@ -9,6 +9,9 @@ filetype indent on
 
 " works in gvim only
 set autoread
+
+" auto reload vimrc on write
+autocmd! bufwritepost .vimrc source %
 
 " PEP8 indentation
 set tabstop=4

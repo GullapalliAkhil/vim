@@ -1,27 +1,34 @@
+" Some links-
+" https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
+" 
+
 set nocompatible
 
 filetype plugin on
 filetype indent on
 
+" works in gvim only
 set autoread
-set smarttab
-set ruler
-set encoding=utf8
-set ffs=unix,dos,mac
 
-set expandtab
+" PEP8 indentation
 set tabstop=4
+set softtabstop=4
 set shiftwidth=4
-set textwidth=120
+set textwidth=79
+set expandtab
+set autoindent
+set fileformat=unix
 
-set tags+=~/.vim/systags
+set smarttab
+set encoding=utf8
 
+" syntax coloring
 set t_Co=256
 syntax on
 
+" completion popup menu
 set completeopt=menuone,preview
 
-"filetype plugin on
 syntax enable
 set ai "Auto indent
 set si "Smart indent
@@ -35,42 +42,43 @@ set wildmode=longest:full
 set wildmenu
 set noswapfile
 
+" shortcuts
 set pastetoggle=<F2>
 :nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> <C-W><C-W>
-"nnoremap <C><Tab> <C-W><C-W>
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-K>
-"nnoremap <C-L> <C-W><C-L>
-"nnoremap <C-H> <C-W><C-H>
-autocmd VimEnter * TlistOpen
-autocmd VimEnter * wincmd l
-autocmd VimEnter * ConqueTermSplit bash
+nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
+nnoremap <F4> <ESC>:TagbarToggle<CR>
+nnoremap <F5> <ESC>:VimShellPop -toggle<CR>
+nnoremap <F6> :source ~/.vimrc<CR>
+
 nnoremap <space> za
 vnoremap <space> zf
 
 if bufwinnr(1)
     map < <c-w><
     map > <c-w>>
-    map j <c-w>+
-    map k <c-w>-
+    map ; <c-w>+
+    map ' <c-w>-
 endif
+
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" new window location on split 
 set splitright
-set foldmethod=indent
-set foldnestmax=2
-set nofoldenable
+set splitbelow
 
 " vundle plugin lst and config
 set rtp+=~/.vim/bundle/Vundle.vim
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 " git wrapper- :help fugitive for more
 Bundle 'tpope/vim-fugitive'
 
-Plugin 'vim-scripts/taglist.vim'
+" alternative to taglist - tagbar
+Bundle 'majutsushi/tagbar'
 
 " show directory struction- :help nerdtree
 Bundle 'scrooloose/nerdtree'
@@ -78,37 +86,76 @@ Bundle 'scrooloose/nerdtree'
 " nerd tree window fixed 
 Bundle 'jistr/vim-nerdtree-tabs'
 
-" Bundle 'klen/python-mode'
+" python syntax highlighting
 Bundle 'hdima/python-syntax'
+
+" poweline alternative
 Plugin 'vim-airline/vim-airline'
-Plugin 'davidhalter/jedi-vim'
+
+" fullsize a window <C-w>o
 Plugin 'taylor/vim-zoomwin'
-Bundle 'lrvick/Conque-Shell'
+
+" dependency of vimshell
+Plugin 'Shougo/vimproc.vim'
+
+" shell to run commands i.e. bash, python
+Plugin 'Shougo/vimshell.vim'
+
+" fold accurately python
+Plugin 'tmhedberg/SimpylFold'
+
+" proper indentation 
+Plugin 'vim-scripts/indentpython.vim'
+
+" completes code before writing
+Bundle 'Valloric/YouCompleteMe'
+
+" pylint, pep8 runtime
+Plugin 'scrooloose/syntastic'
+
+" search for files
+Plugin 'ctrlpvim/ctrlp.vim'
+
+" comment/uncomment
+Plugin 'vim-scripts/tComment'
 
 call vundle#end()
+
+" All plugin confs-
+
 " airline conf
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#left_alt_sep = '>'
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-" listtag conf
-filetype on
-" let Tlist_Auto_Open=1
-let Tlist_Auto_Highlight_Tag=1
-let Tlist_File_Fold_Auto_Close = 1
-let Tlist_Exit_OnlyWindow = 1
-
-
 " nerdtreetabs conf
 let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_smart_startup_focus=2
 let NERDTreeWinSize = 20
-" nerdtree conf
-" autocmd vimenter * NERDTree
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+" vimshell conf
+let g:vimshell_popup_height = 20
+let g:vimshell_enable_smart_case   = 1
+let g:vimshell_prompt              = '➤  '
+let g:vimshell_temporary_directory = "~/tmp/vimshell"
+
+" Simplyfold conf
+let g:SimpylFold_docstring_preview = 1
+
+" python-syntax conf
+let python_highlight_all = 1
+
+" YouCompleteMe conf
+let g:ycm_autoclose_preview_window_after_completion=1
+
+" syntastic conf
+let g:syntastic_python_checkers = ['pylint', 'pep8']
+
 
 " no to tabs- http://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/  Solution #1
 " This allows buffers to be hidden if you've modified a buffer.
@@ -133,7 +180,14 @@ nmap <leader>bq :bp <BAR> bd #<CR>
 nmap <leader>bl :ls<CR>
 autocmd BufEnter * lcd %:p:h
 
-" pymode conf
-"let g:pymode = 0
-"let g:pymode_lint_on_write = 1
-"let pymode_rope = 1
+" source codes-
+
+" python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF

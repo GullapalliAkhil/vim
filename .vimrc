@@ -57,13 +57,6 @@ nnoremap <F6> :source ~/.vimrc<CR>
 nnoremap <space> za
 vnoremap <space> zf
 
-if bufwinnr(1)
-    map < <c-w><
-    map > <c-w>>
-    map ; <c-w>+
-    map ' <c-w>-
-endif
-
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " new window location on split 
@@ -122,6 +115,15 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " comment/uncomment
 Plugin 'vim-scripts/tComment'
 
+" refactoring code
+Plugin 'python-rope/ropevim'
+
+" custom modes like insert, visual
+Plugin 'vim-scripts/tinymode.vim'
+
+" bclose to close buff without closing window
+Plugin 'rbgrouleff/bclose.vim'
+
 call vundle#end()
 
 " All plugin confs-
@@ -140,12 +142,14 @@ let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_smart_startup_focus=2
 let NERDTreeWinSize = 20
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+let g:nerdtree_tabs_startup_cd = 1
 
 " vimshell conf
 let g:vimshell_popup_height = 20
 let g:vimshell_enable_smart_case   = 1
 let g:vimshell_prompt              = '➤  '
 let g:vimshell_temporary_directory = "~/tmp/vimshell"
+map <C-l>           <Plug>(vimshell_clear)
 
 " Simplyfold conf
 let g:SimpylFold_docstring_preview = 1
@@ -159,6 +163,67 @@ let g:ycm_autoclose_preview_window_after_completion=1
 " syntastic conf
 let g:syntastic_python_checkers = ['pylint', 'pep8']
 
+" tinymode conf - resize current window mode
+call tinymode#EnterMap("winsize", "ws", "") 
+call tinymode#Map("winsize", "j", "wincmd +") 
+call tinymode#Map("winsize", "k", "wincmd -") 
+call tinymode#Map("winsize", "h", "wincmd <") 
+call tinymode#Map("winsize", "l", "wincmd >")
+call tinymode#ModeMsg("winsize", "--WINSIZE--") 
+call tinymode#ModeArg("winsize", "timeoutlen", 5000) 
+
+" tagbar conf
+let g:tagbar_type_vimwiki = {
+            \ 'ctagstype' : 'wiki',
+            \ 'kinds'     : [
+            \ 'h:headers'
+            \ ]
+            \ }
+let g:tagbar_type_mkd= {
+            \ 'ctagstype' : 'md',
+            \ 'kinds' : [
+            \ 'h:headings'
+            \ ],
+            \ 'sort' : 0,
+            \ }
+let g:tagbar_type_css= {
+            \ 'ctagstype' : 'css',
+            \ 'kinds' : [
+            \ 'c:classes',
+            \ 'i:ids',
+            \ 't:tags',
+            \ 'm:media',
+            \ 'f:fonts',
+            \ 'k:keyframes'
+            \ ],
+            \ 'sort' : 0,
+            \ }
+let g:tagbar_type_html= {
+            \ 'ctagstype' : 'html',
+            \ 'kinds'     : [
+            \ 'i:ids',
+            \ 'c:classes',
+            \ ]
+            \ }
+let g:tagbar_type_vhdl = {
+            \ 'ctagstype': 'vhdl',
+            \ 'kinds' : [
+            \'d:prototypes',
+            \'b:package bodies',
+            \'e:entities',
+            \'a:architectures',
+            \'t:types',
+            \'p:processes',
+            \'f:functions',
+            \'r:procedures',
+            \'c:constants',
+            \'T:subtypes',
+            \'r:records',
+            \'C:components',
+            \'P:packages',
+            \'l:locals'
+            \]
+            \}
 
 " no to tabs- http://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/  Solution #1
 " This allows buffers to be hidden if you've modified a buffer.
@@ -182,6 +247,8 @@ nmap <leader>bq :bp <BAR> bd #<CR>
 " Show all open buffers and their status
 nmap <leader>bl :ls<CR>
 autocmd BufEnter * lcd %:p:h
+
+
 
 " source codes-
 

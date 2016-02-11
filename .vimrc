@@ -17,7 +17,7 @@ autocmd! bufwritepost .vimrc source %
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set textwidth=79
+set textwidth=99
 set expandtab
 set autoindent
 set fileformat=unix

@@ -45,6 +45,9 @@ set wildmode=longest:full
 set wildmenu
 set noswapfile
 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 " shortcuts
 set pastetoggle=<F2>
 :nnoremap <Tab> :bnext<CR>
@@ -162,6 +165,9 @@ let g:ycm_autoclose_preview_window_after_completion=1
 
 " syntastic conf
 let g:syntastic_python_checkers = ['pylint', 'pep8']
+
+" line length ignore
+let g:syntastic_python_checker_args='--ignore=E501'
 
 " tinymode conf - resize current window mode
 call tinymode#EnterMap("winsize", "ws", "") 

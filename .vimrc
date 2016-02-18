@@ -45,6 +45,9 @@ set wildmode=longest:full
 set wildmenu
 set noswapfile
 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 " shortcuts
 set pastetoggle=<F2>
 :nnoremap <Tab> :bnext<CR>

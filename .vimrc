@@ -36,7 +36,8 @@ syntax enable
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
-set number
+set relativenumber
+set number          
 set incsearch
 set smartcase
 set showmatch
@@ -51,6 +52,10 @@ cmap w!! w !sudo tee > /dev/null %
 " shortcuts
 set pastetoggle=<F2>
 :nnoremap <Tab> :bnext<CR>
+
+" disable <Tab> on nerdtree window
+autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
+
 nnoremap <S-Tab> <C-W><C-W>
 nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
@@ -61,6 +66,12 @@ nnoremap <space> za
 vnoremap <space> zf
 
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+:command IpdbBreakPointBelow :normal oimport ipdb; ipdb.set_trace()<ESC>
+:command IpdbBreakPointAbove :normal Oimport ipdb; ipdb.set_trace()<ESC>
+
+nnoremap <leader>b  <ESC>:IpdbBreakPointBelow<CR>
+nnoremap <leader>B  <ESC>:IpdbBreakPointAbove<CR>
 
 " new window location on split 
 set splitright
@@ -83,7 +94,7 @@ Bundle 'majutsushi/tagbar'
 Bundle 'scrooloose/nerdtree'
 
 " nerd tree window fixed 
-Bundle 'jistr/vim-nerdtree-tabs'
+Bundle "jistr/vim-nerdtree-tabs"
 
 " python syntax highlighting
 Bundle 'hdima/python-syntax'
@@ -127,6 +138,11 @@ Plugin 'vim-scripts/tinymode.vim'
 " bclose to close buff without closing window
 Plugin 'rbgrouleff/bclose.vim'
 
+" hard vim
+Bundle "wikitopian/hardmode"
+
+" surround.vim
+Bundle "tpope/vim-surround"
 call vundle#end()
 
 " All plugin confs-
@@ -177,6 +193,11 @@ call tinymode#Map("winsize", "h", "wincmd <")
 call tinymode#Map("winsize", "l", "wincmd >")
 call tinymode#ModeMsg("winsize", "--WINSIZE--") 
 call tinymode#ModeArg("winsize", "timeoutlen", 5000) 
+
+" auto start hard vim
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+nnoremap <F7> <Esc>:call ToggleHardMode()<CR>
+let g:HardMode_level='wannabe'
 
 " tagbar conf
 let g:tagbar_type_vimwiki = {

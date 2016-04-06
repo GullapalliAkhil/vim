@@ -21,6 +21,7 @@ set textwidth=99
 set expandtab
 set autoindent
 set fileformat=unix
+set hlsearch
 
 set smarttab
 set encoding=utf8
@@ -52,11 +53,12 @@ cmap w!! w !sudo tee > /dev/null %
 " shortcuts
 set pastetoggle=<F2>
 :nnoremap <Tab> :bnext<CR>
+:nnoremap <S-Tab> :bprevious<CR>
 
 " disable <Tab> on nerdtree window
 autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
 
-nnoremap <S-Tab> <C-W><C-W>
+" nnoremap <C-S-Tab> <C-W><C-W>
 nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
 nnoremap <F5> <ESC>:VimShellPop -toggle<CR>
@@ -67,11 +69,23 @@ vnoremap <space> zf
 
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-:command IpdbBreakPointBelow :normal oimport ipdb; ipdb.set_trace()<ESC>
-:command IpdbBreakPointAbove :normal Oimport ipdb; ipdb.set_trace()<ESC>
+:command! IpdbBreakPointBelow :normal oimport ipdb; ipdb.set_trace()<ESC>
+:command! IpdbBreakPointAbove :normal Oimport ipdb; ipdb.set_trace()<ESC>
 
 nnoremap <leader>b  <ESC>:IpdbBreakPointBelow<CR>
 nnoremap <leader>B  <ESC>:IpdbBreakPointAbove<CR>
+
+imap <C-Q> <ESC>:Bclose<CR>
+vmap <C-Q> <ESC>:Bclose<CR>
+nmap <C-Q> :Bclose<CR>
+
+
+imap <C-S> <ESC>:w<CR>
+vmap <C-S> <ESC>:w<CR>
+nmap <C-S> :w<CR>
+
+:command! Q :q
+:nnoremap <CR> :nohlsearch<CR><CR>
 
 " new window location on split 
 set splitright
@@ -139,18 +153,34 @@ Plugin 'vim-scripts/tinymode.vim'
 Plugin 'rbgrouleff/bclose.vim'
 
 " hard vim
-Bundle "wikitopian/hardmode"
+Bundle "takac/vim-hardtime"
 
 " surround.vim
 Bundle "tpope/vim-surround"
+
+" indent object
+Bundle "michaeljsmith/vim-indent-object"
+
+" Indent line
+Bundle "Yggdroot/indentLine"
+
+" stupid easy motion
+" Bundle "joequery/Stupid-EasyMotion"
+Bundle "easymotion/vim-easymotion"
+
+" ag search, grep alter
+Bundle "rking/ag.vim"
+
 call vundle#end()
 
+" hi Folded ctermfg=white
+hi Folded ctermbg=236
 " All plugin confs-
 
 " airline conf
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '>'
+let g:airline#extensions#tabline#left_alt_sep = '|'
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
@@ -194,10 +224,23 @@ call tinymode#Map("winsize", "l", "wincmd >")
 call tinymode#ModeMsg("winsize", "--WINSIZE--") 
 call tinymode#ModeArg("winsize", "timeoutlen", 5000) 
 
-" auto start hard vim
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-nnoremap <F7> <Esc>:call ToggleHardMode()<CR>
+" auto start hardtime vim
+let g:hardtime_default_on = 1
+let g:list_of_insert_keys = []
+let g:list_of_normal_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+let g:list_of_visual_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
+
+let g:hardtime_ignore_buffer_patterns = [ "CustomPatt[ae]rn", "NERD.*" ]
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_showmsg = 1
+
+nnoremap <F7> <Esc>:HardTimeToggle<CR>
 let g:HardMode_level='wannabe'
+
+" line indent
+let g:indentLine_color_tty_dark = 4
+let g:indentLine_conceallevel = 1
+let g:indentLine_char = '┊'
 
 " tagbar conf
 let g:tagbar_type_vimwiki = {

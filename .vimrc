@@ -49,7 +49,7 @@ set noswapfile
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
-
+nnoremap ; :
 " shortcuts
 set pastetoggle=<F2>
 :nnoremap <Tab> :bnext<CR>
@@ -171,6 +171,8 @@ Bundle "easymotion/vim-easymotion"
 " ag search, grep alter
 Bundle "rking/ag.vim"
 
+" auto docstring python
+Bundle "heavenshell/vim-pydocstring"
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -241,6 +243,9 @@ let g:HardMode_level='wannabe'
 let g:indentLine_color_tty_dark = 4
 let g:indentLine_conceallevel = 1
 let g:indentLine_char = '┊'
+
+" pydocstring map
+nmap <silent> <C-_> <Plug>(pydocstring)
 
 " tagbar conf
 let g:tagbar_type_vimwiki = {

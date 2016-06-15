@@ -204,6 +204,7 @@ map <C-l>           <Plug>(vimshell_clear)
 
 " Simplyfold conf
 let g:SimpylFold_docstring_preview = 1
+let g:SimpylFold_fold_import = 1
 
 " python-syntax conf
 let python_highlight_all = 1
@@ -216,6 +217,14 @@ let g:syntastic_python_checkers = ['pylint', 'pep8']
 
 " line length ignore
 let g:syntastic_python_checker_args='--ignore=E501'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
+" Ag conf 
+let g:ag_working_path_mode="r"
 
 " tinymode conf - resize current window mode
 call tinymode#EnterMap("winsize", "ws", "") 

@@ -61,16 +61,20 @@ autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
 " nnoremap <C-S-Tab> <C-W><C-W>
 nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
-nnoremap <F5> <ESC>:VimShellPop -toggle<CR>
 nnoremap <F6> :source ~/.vimrc<CR>
 
 nnoremap <space> za
 vnoremap <space> zf
 
+nnoremap <NUL> zi
+vnoremap <NUL> zi
+
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 :command! IpdbBreakPointBelow :normal oimport ipdb; ipdb.set_trace()<ESC>
 :command! IpdbBreakPointAbove :normal Oimport ipdb; ipdb.set_trace()<ESC>
+
+:command! S :Subvert
 
 nnoremap <leader>b  <ESC>:IpdbBreakPointBelow<CR>
 nnoremap <leader>B  <ESC>:IpdbBreakPointAbove<CR>
@@ -118,12 +122,6 @@ Plugin 'vim-airline/vim-airline'
 
 " fullsize a window <C-w>o
 Plugin 'taylor/vim-zoomwin'
-
-" dependency of vimshell
-Plugin 'Shougo/vimproc.vim'
-
-" shell to run commands i.e. bash, python
-Plugin 'Shougo/vimshell.vim'
 
 " fold accurately python
 Plugin 'tmhedberg/SimpylFold'
@@ -173,6 +171,18 @@ Bundle "rking/ag.vim"
 
 " auto docstring python
 Bundle "heavenshell/vim-pydocstring"
+
+" substitute multiple variants of a word 
+Plugin 'tpope/vim-abolish'
+
+" dependency of session
+Bundle "xolox/vim-misc"
+
+" session 
+Bundle "xolox/vim-session"
+
+" visual *
+Bundle "thinca/vim-visualstar"
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -222,6 +232,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_loc_list_height=5
 
 " Ag conf 
 let g:ag_working_path_mode="r"
@@ -256,6 +267,12 @@ let g:indentLine_char = '┊'
 " pydocstring map
 nmap <silent> <C-_> <Plug>(pydocstring)
 
+" ctrlp ignore
+set wildignore+=*.pyc     " MacOSX/Linux
+
+" session settings 
+let g:session_autosave = 'yes'
+let g:session_autoload = 'no'
 " tagbar conf
 let g:tagbar_type_vimwiki = {
             \ 'ctagstype' : 'wiki',
@@ -331,8 +348,6 @@ nmap <leader>bq :bp <BAR> bd #<CR>
 " Show all open buffers and their status
 nmap <leader>bl :ls<CR>
 autocmd BufEnter * lcd %:p:h
-
-
 
 " source codes-
 

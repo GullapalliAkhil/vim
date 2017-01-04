@@ -95,6 +95,13 @@ nmap <C-S> :w<CR>
 set splitright
 set splitbelow
 
+" color theme in vim
+set background=dark
+" solarized options
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+" colorscheme solarized
+
 " vundle plugin lst and config
 set rtp+=~/.vim/bundle/Vundle.vim
 
@@ -202,7 +209,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_smart_startup_focus=2
 let NERDTreeWinSize = 20
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+let NERDTreeIgnore=['\.pyc$', '_pb2\.py', '\~$'] "ignore files in NERDTree
 let g:nerdtree_tabs_startup_cd = 1
 
 " vimshell conf
@@ -265,6 +272,7 @@ let g:indentLine_conceallevel = 1
 let g:indentLine_char = '┊'
 
 " pydocstring map
+let g:pydocstring_templates_dir = "/home/tanmay/Codebases/vim/pydocstring/"
 nmap <silent> <C-_> <Plug>(pydocstring)
 
 " ctrlp ignore

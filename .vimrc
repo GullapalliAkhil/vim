@@ -58,7 +58,13 @@ set pastetoggle=<F2>
 " disable <Tab> on nerdtree window
 autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
 
-" nnoremap <C-S-Tab> <C-W><C-W>
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+nnoremap <C-B> :CtrlPBuffer
+
 nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
 nnoremap <F6> :source ~/.vimrc<CR>
@@ -190,6 +196,9 @@ Bundle "xolox/vim-session"
 
 " visual *
 Bundle "thinca/vim-visualstar"
+
+" incsearch.vim incrementally highlights ALL pattern matches unlike default 'incsearch'.
+Plugin 'haya14busa/incsearch.vim'
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -230,16 +239,20 @@ let python_highlight_all = 1
 let g:ycm_autoclose_preview_window_after_completion=1
 
 " syntastic conf
-let g:syntastic_python_checkers = ['pylint', 'pep8']
+let g:syntastic_python_checkers = ['pep8', 'pylint', 'flake8', 'pydocstyle']
 
-" line length ignore
-let g:syntastic_python_checker_args='--ignore=E501'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+" line length ignore
+let g:syntastic_python_flake8_args='--ignore=E501'
+let g:syntastic_python_pep8_args='--ignore=E501'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height=5
+let g:syntastic_check_on_open = 1
+let g:syntastic_aggregate_errors = 1
 
 " Ag conf 
 let g:ag_working_path_mode="r"
@@ -254,7 +267,7 @@ call tinymode#ModeMsg("winsize", "--WINSIZE--")
 call tinymode#ModeArg("winsize", "timeoutlen", 5000) 
 
 " auto start hardtime vim
-let g:hardtime_default_on = 1
+" let g:hardtime_default_on = 1
 let g:list_of_insert_keys = []
 let g:list_of_normal_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
 let g:list_of_visual_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
@@ -358,13 +371,21 @@ nmap <leader>bl :ls<CR>
 autocmd BufEnter * lcd %:p:h
 
 " source codes-
+" Put coding lines in every py file as soon as you create it 
+if has("autocmd")
+augroup content
+autocmd BufNewFile *.py
+   \ 0put = '# -*- coding: utf-8 -*-' |
+   \ norm gg19jf]
+augroup END
+endif
 
-" python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
+" " python with virtualenv support
+" py << EOF
+" import os
+" import sys
+" if 'VIRTUAL_ENV' in os.environ:
+"   project_base_dir = os.environ['VIRTUAL_ENV']
+"   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"   execfile(activate_this, dict(__file__=activate_this))
+" EOF

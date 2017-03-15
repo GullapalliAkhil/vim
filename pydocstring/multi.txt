@@ -1,7 +1,7 @@
 """{{_header_}}.
 
-    {{_indent_}}Args:
-    {{_indent_}}{{_arg_}} (str):
-    {{_indent_}}Returns:
-    {{_indent_}}Raises:
+{{_indent_}}Args:
+{{_indent_}}{{_arg_}} (str):
+{{_indent_}}Returns:
+{{_indent_}}Raises:
 """

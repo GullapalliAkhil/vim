@@ -23,6 +23,11 @@ set autoindent
 set fileformat=unix
 set hlsearch
 
+" project specific vimrc
+" set exrc
+" set secure
+
+
 set smarttab
 set encoding=utf8
 
@@ -107,7 +112,12 @@ set background=dark
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 " colorscheme solarized
+let g:solarized_diffmode="high"
 
+if &diff
+        colorscheme apprentice 
+endif
+"
 " vundle plugin lst and config
 set rtp+=~/.vim/bundle/Vundle.vim
 
@@ -143,7 +153,7 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 
 " completes code before writing
-Bundle 'Valloric/YouCompleteMe'
+" Bundle 'Valloric/YouCompleteMe'
 
 " pylint, pep8 runtime
 Plugin 'scrooloose/syntastic'
@@ -199,6 +209,9 @@ Bundle "thinca/vim-visualstar"
 
 " incsearch.vim incrementally highlights ALL pattern matches unlike default 'incsearch'.
 Plugin 'haya14busa/incsearch.vim'
+
+ " project level local vimrc
+Plugin 'thinca/vim-localrc'
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -347,6 +360,10 @@ let g:tagbar_type_vhdl = {
             \]
             \}
 
+" localrc conf
+" let g:localrc_filetype = '*.py'
+" let g:localrc_filename = '.local.vimrc'
+
 " no to tabs- http://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/  Solution #1
 " This allows buffers to be hidden if you've modified a buffer.
 " This is almost a must if you wish to use buffers in this way.
@@ -366,11 +383,15 @@ nmap <leader>h :bprevious<CR>
 " This replicates the idea of closing a tab
 nmap <leader>bq :bp <BAR> bd #<CR>
 
-" Show all open buffers and their status
-nmap <leader>bl :ls<CR>
-autocmd BufEnter * lcd %:p:h
-
+" " Show all open buffers and their status
+" nmap <leader>bl :ls<CR>
+" autocmd BufEnter * lcd %:p:h
+"
+"
 " source codes-
+" protobuf tag numbering
+let @z = "k$byt;j$bvt;p^A^[^["
+
 " Put coding lines in every py file as soon as you create it 
 if has("autocmd")
 augroup content
@@ -379,6 +400,14 @@ autocmd BufNewFile *.py
    \ norm gg19jf]
 augroup END
 endif
+
+" Yaml heper
+autocmd FileType yaml call SetYamlOptions()
+
+function SetYamlOptions()
+    setlocal ai ts=2 sw=2 et
+    set foldmethod=indent
+endfunction
 
 " " python with virtualenv support
 " py << EOF

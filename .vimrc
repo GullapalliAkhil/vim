@@ -153,7 +153,7 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 
 " completes code before writing
-" Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 
 " pylint, pep8 runtime
 Plugin 'scrooloose/syntastic'

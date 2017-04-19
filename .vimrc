@@ -298,7 +298,7 @@ let g:indentLine_conceallevel = 1
 let g:indentLine_char = '┊'
 
 " pydocstring map
-let g:pydocstring_templates_dir = "/home/tanmay/Codebases/vim/pydocstring/"
+let g:pydocstring_templates_dir = "$HOME/Codebases/vim/pydocstring/"
 nmap <silent> <C-_> <Plug>(pydocstring)
 
 " ctrlp ignore

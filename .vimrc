@@ -80,8 +80,6 @@ vnoremap <space> zf
 nnoremap <NUL> zi
 vnoremap <NUL> zi
 
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 :command! IpdbBreakPointBelow :normal oimport ipdb; ipdb.set_trace()<ESC>
 :command! IpdbBreakPointAbove :normal Oimport ipdb; ipdb.set_trace()<ESC>
 
@@ -90,10 +88,7 @@ map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>b  <ESC>:IpdbBreakPointBelow<CR>
 nnoremap <leader>B  <ESC>:IpdbBreakPointAbove<CR>
 
-imap <C-Q> <ESC>:Bclose<CR>
-vmap <C-Q> <ESC>:Bclose<CR>
-nmap <C-Q> :Bclose<CR>
-
+map <C-Q> <ESC>:Bclose<CR>
 
 imap <C-S> <ESC>:w<CR>
 vmap <C-S> <ESC>:w<CR>
@@ -153,7 +148,7 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
 
 " completes code before writing
-Bundle 'Valloric/YouCompleteMe'
+Bundle 'ajh17/VimCompletesMe'
 
 " pylint, pep8 runtime
 Plugin 'scrooloose/syntastic'
@@ -187,7 +182,7 @@ Bundle "Yggdroot/indentLine"
 
 " stupid easy motion
 " Bundle "joequery/Stupid-EasyMotion"
-Bundle "easymotion/vim-easymotion"
+" Bundle "easymotion/vim-easymotion"
 
 " ag search, grep alter
 Bundle "rking/ag.vim"
@@ -248,11 +243,8 @@ let g:SimpylFold_fold_import = 1
 " python-syntax conf
 let python_highlight_all = 1
 
-" YouCompleteMe conf
-let g:ycm_autoclose_preview_window_after_completion=1
-
 " syntastic conf
-let g:syntastic_python_checkers = ['pep8', 'pylint', 'flake8', 'pydocstyle']
+let g:syntastic_python_checkers = ['pep8', 'pylint', 'flake8', 'pydocstyle', 'nulint']
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -261,11 +253,16 @@ set statusline+=%*
 " line length ignore
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_python_pep8_args='--ignore=E501'
-let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_python_pylint_args='--disable=line-too-long,abstract-method,attribute-defined-outside-init,no-member,logging-not-lazy,relative-import,too-many-arguments'
+let g:syntastic_python_pydocstyle_args='--ignore=D210,D400,D213,D205,D202,D203,D208,D403,D300'
+
+let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height=5
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_aggregate_errors = 1
+
+nnoremap <C-E> <Esc>:SyntasticCheck<CR>
 
 " Ag conf 
 let g:ag_working_path_mode="r"
@@ -404,10 +401,12 @@ endif
 " Yaml heper
 autocmd FileType yaml call SetYamlOptions()
 
-function SetYamlOptions()
+function! SetYamlOptions()
     setlocal ai ts=2 sw=2 et
     set foldmethod=indent
 endfunction
+
+silent !stty -ixon > /dev/null 2>/dev/null
 
 " " python with virtualenv support
 " py << EOF

@@ -68,7 +68,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-nnoremap <C-B> :CtrlPBuffer
+nnoremap <C-B> :CtrlPBuffer<CR><C-\>s
+nnoremap <C-T> :CtrlPTag<cr><C-\>s
 
 nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
@@ -160,7 +161,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-scripts/tComment'
 
 " refactoring code
-Plugin 'python-rope/ropevim'
+" Plugin 'python-rope/ropevim'
 
 " custom modes like insert, visual
 Plugin 'vim-scripts/tinymode.vim'
@@ -304,6 +305,7 @@ set wildignore+=*.pyc     " MacOSX/Linux
 " session settings 
 let g:session_autosave = 'yes'
 let g:session_autoload = 'no'
+"
 " tagbar conf
 let g:tagbar_type_vimwiki = {
             \ 'ctagstype' : 'wiki',
@@ -365,6 +367,12 @@ let g:tagbar_type_vhdl = {
 " This allows buffers to be hidden if you've modified a buffer.
 " This is almost a must if you wish to use buffers in this way.
 set hidden
+
+" the working directory is always the one containing the current file
+set autochdir
+
+" tags file
+set tags=./tags,tags;
 
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping

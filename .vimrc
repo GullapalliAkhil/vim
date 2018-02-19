@@ -68,8 +68,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-nnoremap <C-B> :CtrlPBuffer<CR><C-\>s
-nnoremap <C-T> :CtrlPTag<cr><C-\>s
+nnoremap <C-B> :CtrlPBuffer<CR>
+nnoremap <C-T> :CtrlPTag<CR>
 
 nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
@@ -208,6 +208,12 @@ Plugin 'haya14busa/incsearch.vim'
 
  " project level local vimrc
 Plugin 'thinca/vim-localrc'
+
+" json vim plugin
+Bundle "elzr/vim-json"
+
+" GO programming plugin
+Bundle "fatih/vim-go"
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -257,8 +263,8 @@ let g:syntastic_python_pep8_args='--ignore=E501'
 let g:syntastic_python_pylint_args='--disable=line-too-long,abstract-method,attribute-defined-outside-init,no-member,logging-not-lazy,relative-import,too-many-arguments'
 let g:syntastic_python_pydocstyle_args='--ignore=D210,D400,D213,D205,D202,D203,D208,D403,D300'
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_loc_list_height=5
 let g:syntastic_check_on_open = 0
 let g:syntastic_aggregate_errors = 1
@@ -387,6 +393,8 @@ nmap <leader>h :bprevious<CR>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
 nmap <leader>bq :bp <BAR> bd #<CR>
+
+au BufRead,BufNewFile *.go set filetype=go
 
 " " Show all open buffers and their status
 " nmap <leader>bl :ls<CR>

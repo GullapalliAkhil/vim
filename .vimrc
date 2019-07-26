@@ -63,10 +63,15 @@ set pastetoggle=<F2>
 " disable <Tab> on nerdtree window
 autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nmap <silent> <S-Up> :wincmd k<CR>
+nmap <silent> <S-Down> :wincmd j<CR>
+nmap <silent> <S-Left> :wincmd h<CR>
+nmap <silent> <S-Right> :wincmd l<CR>
+
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
 
 nnoremap <C-B> :CtrlPBuffer<CR>
 nnoremap <C-T> :CtrlPTag<CR>
@@ -214,6 +219,8 @@ Bundle "elzr/vim-json"
 
 " GO programming plugin
 Bundle "fatih/vim-go"
+
+Bundle "szw/vim-tags.git"
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -241,7 +248,7 @@ let g:vimshell_popup_height = 20
 let g:vimshell_enable_smart_case   = 1
 let g:vimshell_prompt              = '➤  '
 let g:vimshell_temporary_directory = "~/tmp/vimshell"
-map <C-l>           <Plug>(vimshell_clear)
+" map <C-l>           <Plug>(vimshell_clear)
 
 " Simplyfold conf
 let g:SimpylFold_docstring_preview = 1
@@ -307,6 +314,7 @@ nmap <silent> <C-_> <Plug>(pydocstring)
 
 " ctrlp ignore
 set wildignore+=*.pyc     " MacOSX/Linux
+set wildignore+=*.html     " MacOSX/Linux
 
 " session settings 
 let g:session_autosave = 'yes'
@@ -420,6 +428,13 @@ autocmd FileType yaml call SetYamlOptions()
 function! SetYamlOptions()
     setlocal ai ts=2 sw=2 et
     set foldmethod=indent
+endfunction
+
+" Go heper
+autocmd FileType go call SetGoOptions()
+
+function! SetGoOptions()
+    set foldmethod=syntax
 endfunction
 
 silent !stty -ixon > /dev/null 2>/dev/null

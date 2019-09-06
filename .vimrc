@@ -437,6 +437,14 @@ function! SetGoOptions()
     set foldmethod=syntax
 endfunction
 
+" JSON heper
+autocmd FileType json call SetJsonOptions()
+
+function! SetJsonOptions()
+    set foldmethod=syntax
+endfunction
+
+
 silent !stty -ixon > /dev/null 2>/dev/null
 
 " " python with virtualenv support

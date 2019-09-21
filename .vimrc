@@ -214,6 +214,18 @@ Bundle "elzr/vim-json"
 
 " GO programming plugin
 Bundle "fatih/vim-go"
+
+" Java complete
+Bundle "adragomir/javacomplete"
+
+" fuzzy search
+Bundle "haya14busa/incsearch-fuzzy.vim"
+
+" easy motion
+Bundle "Lokaltog/vim-easymotion"
+Bundle "haya14busa/vim-easyoperator-line"
+Bundle 't9md/vim-choosewin'
+
 call vundle#end()
 
 " hi Folded ctermfg=white
@@ -393,6 +405,13 @@ nmap <leader>h :bprevious<CR>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
 nmap <leader>bq :bp <BAR> bd #<CR>
+
+map z/ <Plug>(incsearch-fuzzy-/)
+map z? <Plug>(incsearch-fuzzy-?)
+map zg/ <Plug>(incsearch-fuzzy-stay)
+
+" invoke with '-'
+nmap  -  <Plug>(choosewin)
 
 au BufRead,BufNewFile *.go set filetype=go
 

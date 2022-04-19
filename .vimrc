@@ -15,7 +15,7 @@ autocmd! bufwritepost .vimrc source %
 
 " PEP8 indentation
 set tabstop=4
-set softtabstop=4
+" set softtabstop=4
 set shiftwidth=4
 set textwidth=99
 set expandtab
@@ -36,7 +36,9 @@ set t_Co=256
 syntax on
 
 " completion popup menu
-set completeopt=menuone,preview
+" set completeopt=menuone,preview
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 syntax enable
 set ai "Auto indent
@@ -51,6 +53,7 @@ set comments=sl:/*,mb:\ *,elx:\ */
 set wildmode=longest:full
 set wildmenu
 set noswapfile
+set backspace=indent,eol,start
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -62,6 +65,7 @@ set pastetoggle=<F2>
 
 " disable <Tab> on nerdtree window
 autocmd FileType nerdtree noremap <buffer> <Tab> <nop>
+autocmd VimEnter * NERDTree | wincmd p
 
 nmap <silent> <S-Up> :wincmd k<CR>
 nmap <silent> <S-Down> :wincmd j<CR>
@@ -76,7 +80,7 @@ nmap <silent> <S-Right> :wincmd l<CR>
 nnoremap <C-B> :CtrlPBuffer<CR>
 nnoremap <C-T> :CtrlPTag<CR>
 
-nnoremap <F3> <ESC>:NERDTreeTabsToggle<CR>
+nnoremap <F3> <ESC>:NERDTreeToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
 nnoremap <F6> :source ~/.vimrc<CR>
 
@@ -119,109 +123,81 @@ if &diff
         colorscheme apprentice 
 endif
 "
-" vundle plugin lst and config
-set rtp+=~/.vim/bundle/Vundle.vim
 
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'VundleVim/Vundle.vim'
+" Completion LSP
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " git wrapper- :help fugitive for more
-Bundle 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " alternative to taglist - tagbar
-Bundle 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 " show directory struction- :help nerdtree
-Bundle 'scrooloose/nerdtree'
-
-" nerd tree window fixed 
-Bundle "jistr/vim-nerdtree-tabs"
+Plug 'scrooloose/nerdtree'
 
 " python syntax highlighting
-Bundle 'hdima/python-syntax'
+Plug 'hdima/python-syntax'
 
 " poweline alternative
-Plugin 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 
 " fullsize a window <C-w>o
-Plugin 'taylor/vim-zoomwin'
+Plug 'taylor/vim-zoomwin'
 
 " fold accurately python
-Plugin 'tmhedberg/SimpylFold'
+Plug 'tmhedberg/SimpylFold'
 
 " proper indentation 
-Plugin 'vim-scripts/indentpython.vim'
-
-" completes code before writing
-Bundle 'ajh17/VimCompletesMe'
+Plug 'vim-scripts/indentpython.vim'
 
 " pylint, pep8 runtime
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 
 " search for files
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " comment/uncomment
-Plugin 'vim-scripts/tComment'
-
-" refactoring code
-" Plugin 'python-rope/ropevim'
+Plug 'vim-scripts/tComment'
 
 " custom modes like insert, visual
-Plugin 'vim-scripts/tinymode.vim'
+Plug 'vim-scripts/tinymode.vim'
 
 " bclose to close buff without closing window
-Plugin 'rbgrouleff/bclose.vim'
-
-" hard vim
-Bundle "takac/vim-hardtime"
+Plug 'rbgrouleff/bclose.vim'
 
 " surround.vim
-Bundle "tpope/vim-surround"
+" Plug "tpope/vim-surround"
 
 " indent object
-Bundle "michaeljsmith/vim-indent-object"
+Plug 'michaeljsmith/vim-indent-object'
 
 " Indent line
-Bundle "Yggdroot/indentLine"
-
-" stupid easy motion
-" Bundle "joequery/Stupid-EasyMotion"
-" Bundle "easymotion/vim-easymotion"
-
-" ag search, grep alter
-Bundle "rking/ag.vim"
+" Plug "Yggdroot/indentLine"
 
 " auto docstring python
-Bundle "heavenshell/vim-pydocstring"
+Plug 'heavenshell/vim-pydocstring', { 'do': 'make install', 'for': 'python' }
 
 " substitute multiple variants of a word 
-Plugin 'tpope/vim-abolish'
-
-" dependency of session
-Bundle "xolox/vim-misc"
-
-" session 
-Bundle "xolox/vim-session"
-
-" visual *
-Bundle "thinca/vim-visualstar"
+Plug 'tpope/vim-abolish'
 
 " incsearch.vim incrementally highlights ALL pattern matches unlike default 'incsearch'.
-Plugin 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch.vim'
 
  " project level local vimrc
-Plugin 'thinca/vim-localrc'
-
-" json vim plugin
-Bundle "elzr/vim-json"
+Plug 'thinca/vim-localrc'
 
 " GO programming plugin
-Bundle "fatih/vim-go"
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-Bundle "szw/vim-tags.git"
-call vundle#end()
+" rego syntax highlighting
+Plug 'tsandall/vim-rego'
+
+Plug 'Chiel92/vim-autoformat'
+
+call plug#end()
 
 " hi Folded ctermfg=white
 hi Folded ctermbg=236
@@ -235,13 +211,6 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-
-" nerdtreetabs conf
-let g:nerdtree_tabs_open_on_console_startup = 1
-let g:nerdtree_tabs_smart_startup_focus=2
-let NERDTreeWinSize = 20
-let NERDTreeIgnore=['\.pyc$', '_pb2\.py', '\~$'] "ignore files in NERDTree
-let g:nerdtree_tabs_startup_cd = 1
 
 " vimshell conf
 let g:vimshell_popup_height = 20
@@ -304,11 +273,12 @@ nnoremap <F7> <Esc>:HardTimeToggle<CR>
 let g:HardMode_level='wannabe'
 
 " line indent
-let g:indentLine_color_tty_dark = 4
-let g:indentLine_conceallevel = 1
-let g:indentLine_char = '┊'
-
+" let g:indentLine_color_tty_dark = 4
+" let g:indentLine_conceallevel = 1
+" let g:indentLine_char = '┊'
+"
 " pydocstring map
+let g:pydocstring_templates_path = "$HOME/Codebases/vim/pydocstring/"
 let g:pydocstring_templates_dir = "$HOME/Codebases/vim/pydocstring/"
 nmap <silent> <C-_> <Plug>(pydocstring)
 
@@ -316,10 +286,6 @@ nmap <silent> <C-_> <Plug>(pydocstring)
 set wildignore+=*.pyc     " MacOSX/Linux
 set wildignore+=*.html     " MacOSX/Linux
 
-" session settings 
-let g:session_autosave = 'yes'
-let g:session_autoload = 'no'
-"
 " tagbar conf
 let g:tagbar_type_vimwiki = {
             \ 'ctagstype' : 'wiki',
@@ -372,6 +338,12 @@ let g:tagbar_type_vhdl = {
             \'l:locals'
             \]
             \}
+
+let g:formatdef_rego = '"opa fmt"'
+let g:formatters_rego = ['rego']
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+au BufWritePre *.rego Autoformat
 
 " localrc conf
 " let g:localrc_filetype = '*.py'
@@ -447,12 +419,19 @@ endfunction
 
 silent !stty -ixon > /dev/null 2>/dev/null
 
-" " python with virtualenv support
-" py << EOF
-" import os
-" import sys
-" if 'VIRTUAL_ENV' in os.environ:
-"   project_base_dir = os.environ['VIRTUAL_ENV']
-"   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-"   execfile(activate_this, dict(__file__=activate_this))
-" EOF
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+set expandtab

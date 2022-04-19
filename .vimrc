@@ -374,6 +374,13 @@ nmap <leader>h :bprevious<CR>
 " This replicates the idea of closing a tab
 nmap <leader>bq :bp <BAR> bd #<CR>
 
+map z/ <Plug>(incsearch-fuzzy-/)
+map z? <Plug>(incsearch-fuzzy-?)
+map zg/ <Plug>(incsearch-fuzzy-stay)
+
+" invoke with '-'
+nmap  -  <Plug>(choosewin)
+
 au BufRead,BufNewFile *.go set filetype=go
 
 " " Show all open buffers and their status

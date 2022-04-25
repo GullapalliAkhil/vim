@@ -1,1 +1,1 @@
-source $HOME/vim/vimrc/init.vim
+source $WORKSPACE/vim/vimrc/init.vim

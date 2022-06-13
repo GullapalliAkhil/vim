@@ -169,7 +169,7 @@ let g:indentLine_conceallevel = 1
 let g:indentLine_char = '┊'
 
 " pydocstring
-let g:pydocstring_templates_path = "$HOME/vim/pydocstring/"
-let g:pydocstring_templates_dir = "$HOME/vim/pydocstring/"
+let g:pydocstring_templates_path = "$WORKSPACE/vim/pydocstring/"
+let g:pydocstring_templates_dir = "$WORKSPACE/vim/pydocstring/"
 
 

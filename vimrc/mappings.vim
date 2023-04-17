@@ -20,8 +20,7 @@ nmap <silent> <S-Right> :wincmd l<CR>
 " nnoremap <C-L> <C-W><C-L>
 " nnoremap <C-H> <C-W><C-H>
 
-nnoremap <C-B> :CtrlPBuffer<CR>
-nnoremap <C-T> :CtrlPTag<CR>
+nnoremap <C-B> :TagbarOpen<CR>
 
 nnoremap <F3> <ESC>:NERDTreeToggle<CR>
 nnoremap <F4> <ESC>:TagbarToggle<CR>
@@ -52,20 +51,6 @@ nnoremap <F7> <Esc>:HardTimeToggle<CR>
 
 nmap <silent> <C-_> <Plug>(pydocstring)
 
-" To open a new empty buffer
-" This replaces :tabnew which I used to bind to this mapping
-nmap <leader>T :enew<cr>
-
-" Move to the next buffer
-nmap <leader>l :bnext<CR>
-
-" Move to the previous buffer
-nmap <leader>h :bprevious<CR>
-
-" Close the current buffer and move to the previous one
-" This replicates the idea of closing a tab
-nmap <leader>bq :bp <BAR> bd #<CR>
-
 map z/ <Plug>(incsearch-fuzzy-/)
 map z? <Plug>(incsearch-fuzzy-?)
 map zg/ <Plug>(incsearch-fuzzy-stay)
@@ -94,5 +79,3 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 :command! S :Subvert
 
 :command! Q :q
-
-

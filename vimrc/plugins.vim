@@ -114,6 +114,36 @@ let g:tagbar_type_vhdl = {
             \'l:locals'
             \]
             \}
+let g:tagbar_type_go = {
+            \ 'ctagstype' : 'go',
+            \ 'kinds'     : [
+                \ 'p:package',
+                \ 'i:imports:1',
+                \ 'c:constants',
+                \ 'v:variables',
+                \ 't:types',
+                \ 'n:interfaces',
+                \ 'w:fields',
+                \ 'e:embedded',
+                \ 'm:methods',
+                \ 'r:constructor',
+                \ 'f:functions'
+            \ ],
+            \ 'sro' : '.',
+            \ 'kind2scope' : {
+                \ 't' : 'ctype',
+                \ 'n' : 'ntype'
+            \ },
+            \ 'scope2kind' : {
+                \ 'ctype' : 't',
+                \ 'ntype' : 'n'
+            \ },
+            \ 'ctagsbin'  : 'gotags',
+            \ 'ctagsargs' : '-sort -silent'
+            \ }
+let g:tagbar_autoclose_netrw = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
 
 " python-syntax conf
 let python_highlight_all = 1
@@ -172,4 +202,5 @@ let g:indentLine_char = '┊'
 let g:pydocstring_templates_path = "$WORKSPACE/vim/pydocstring/"
 let g:pydocstring_templates_dir = "$WORKSPACE/vim/pydocstring/"
 
-
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
